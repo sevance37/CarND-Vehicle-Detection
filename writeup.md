@@ -21,7 +21,7 @@ The HOG analysis of an image is a very useful way to detect its features. The HO
 For this study, the hog algorithm skimage.feature.hog() from scikit-image was used.  Images of vehicles and non-vehicles of 64x64x3 pixels in shape were analyzed.  The parameters for the HOG algorithm were set at cells of 8x8 pixels, 9 channel histogram of the gradient orientation (20$^\circ$ per bin), and block normalization over 2x2 cells with block_norm=L2-Hys.  Normalization of the whole image with power law compression (transform_sqrt) before processing was not used since it did not improve the results. Larger blocks of 3x3 cells and other block norm algos were also investigated but not used.
 
 An example of a histogram of gradients is shown below for a vehicle and a non-vehicle image.  
-<img src="writeup_images/hog_examples.jpg" alt="hog_ex" width="500px;" align="center"/>
+<img src="writeup_images/hog_examples.jpg" alt="hog_ex" width="400px;" align="center"/>
 
 
 ### Feature Vectors
@@ -33,12 +33,12 @@ To obtain a description of each image, a vector of its features was created.  Th
 For this project, the image was first transformed from the RGB (Red-Green-Blue) to the YUV color space.  This color space was chosen since the classification algorithm yielded fewer false positives. 
 
 An example of each component of the feature vector is shown below.
-<img src="writeup_images/features.jpg" alt="indiv_feat" width="500px;" align="center"/>
+<img src="writeup_images/features.jpg" alt="indiv_feat" width="700px;" align="center"/>
 
 To scale each method for visualization purposes, values in #1 were divided by 255, values in #2 were divided by 4096, and values in #3 were multiplied by 5. 
 
 An example of the full feature vector is show below.
-<img src="writeup_images/feat_vec.jpg" alt="full_feat" width="500px;" align="center"/>
+<img src="writeup_images/feat_vec.jpg" alt="full_feat" width="700px;" align="center"/>
 
 Several functions were used to obtain the features vectors from image files.  The function extract_feats_from_files() called the function extract_features() which called the functions convert_color(), bin_spatial(), color_hist() and get_hog_features(). 
 
@@ -68,12 +68,12 @@ The pipeline starts by first searching an image for vehicles using three differe
 Windows classified as vehicles are recorded and are combined using a heat map where each detection adds a value of 1 to its pixel values.  To qualify as a valid detection, a pixel must be in at least 4 postive window matches.  The function scipy.ndimage.measurements.label() is then used on the heat map to identify and label the hot spots or cars.  A bounding box for each hot spot is found using the function get_label_boxes().  The bounding boxes are then inspected by the function rm_small_boxes() which discards any boxes whose length or width is less than 48 pixels.  Removing these small boxes helped reduce false positives.
 
 An example of the search in one frame, and the heat map is shown below.
-<img src="writeup_images/detect_heat.jpg" alt="detect" width="400px;" align="center"/>
+<img src="writeup_images/detect_heat.jpg" alt="detect" width="700px;" align="center"/>
 
 The detections from the image are then added to the class ObjectBoxes which maintains a list of the detections from the last 16 frames.  These detections are then added together again using a heat map.  A minimum of 14 overlapping detections are now required to qualify as a tracked car.  This period of length was used to avoid false positives from yellow lanes, guard rails and dividers.  Hot spots are labeled using the scipy.ndimage.measurements.label() functon, and the functions get_label_boxes() and rm_small_boxes() are called to get the boxes for the tracked cars.
 
 An example of this is shown below with the tracked car on the left and the car detections from the last frame on the right.
-<img src="writeup_images/pipeline.jpg" alt="pipeine" width="500px;" align="center"/>
+<img src="writeup_images/pipeline.jpg" alt="pipeine" width="700px;" align="center"/>
 
 
 ### Videos
